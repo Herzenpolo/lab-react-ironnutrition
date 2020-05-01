@@ -13,6 +13,7 @@ class App extends Component {
     foodName : "",
     calories: "",
     image: "",
+    quantity: "",
     filtered: []
   }
 
@@ -42,6 +43,12 @@ class App extends Component {
     })
   }
 
+  inputQuantity = (e) => {
+    this.setState({
+      quantity:e.target.value
+    })
+  }
+
   submission = (e) => {
     let updateArr = [...this.state.foodsArr]
     let newFood = {
@@ -58,11 +65,17 @@ class App extends Component {
     })
   }
 
-  // searchBar = (e) => {
-  //   return this.state.foodsArr.map((eachFood) => {
-  //     eachFood.filter(filteredFoods => filteredFoods.name.includes(e.target.value))
-  //   })
-  // }
+  searchBar = (e) => {
+    let filteredFoods = foods.filter(eachFood => {
+      return eachFood.name.includes(e.target.value)
+    })
+    this.setState({foodsArr:filteredFoods})
+  }
+
+  handleChange = (e) => {
+ 
+    this.setState({quantity:newQuantity})
+  }
 
   // rendering
   render() {
@@ -71,15 +84,18 @@ class App extends Component {
       <input type="text" onChange = {this.searchBar}/>
        <FoodBox 
          foods = {this.state.foodsArr}
+         quantity = {this.state.quantity}
+         handleChange = {this.handleChange}
        />
        
        <button onClick={this.addNewFoodBtn}>Add New Food</button>
-       <section>
+       <form>
          {this.state.addFood ? <input type="text" name= "Food Name" placeholder="Food Name" onChange = {this.inputName}></input> : null} <br/> {/** Ternary statements make the inpupts appear depending on the state of "add food" depending on whether it's true and false */}
          {this.state.addFood ? <input type="text" placeholder="calories" onChange = {this.inputCalories}></input> : null} <br/>
          {this.state.addFood ? <input type="url" placeholder="https..." onChange = {this.inputImage}></input> : null} <br/>
+         {this.state.addFood ? <input type="text" placeholder="Quantity" onChange = {this.inputImage}></input> : null} <br/>
          {this.state.addFood ? <input type="submit" placeholder="submit" onClick = {this.submission}></input> : null}
-       </section>
+       </form>
       </div>
     );
   }
